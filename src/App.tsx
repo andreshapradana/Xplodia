@@ -1,26 +1,129 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import { FiUsers, FiMessageSquare, FiTrendingUp } from 'react-icons/fi';
+import { FaApple, FaGooglePlay } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { IconType } from 'react-icons';
 
-function App() {
+interface Feature {
+  Icon: IconType;
+  title: string;
+  description: string;
+}
+
+const App: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  const features: Feature[] = [
+    {
+      Icon: FiMessageSquare,
+      title: 'Forum Diskusi (Xchange)',
+      description: 'Tanya jawab soal UTBK dengan komunitas pejuang lainnya.'
+    },
+    {
+      Icon: FiTrendingUp,
+      title: 'Leaderboard & Target',
+      description: 'Belajar jadi lebih seru dengan sistem ranking & goal tracker.'
+    },
+    {
+      Icon: FiUsers,
+      title: 'Latihan Soal Live (Livesol)',
+      description: 'Kerjakan soal bareng dan bahas bareng secara real-time.'
+    }
+  ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Test Tailwind
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 text-white">
+      <div className="container mx-auto px-4 py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: isVisible ? 1 : 0, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="grid lg:grid-cols-2 gap-12 items-center"
         >
-          Learn React
-        </a>
-      </header>
+          {/* Left */}
+          <div className="space-y-8">
+            <h1 className="text-5xl font-bold leading-tight">
+              Siap UTBK dengan <span className="text-indigo-300">Xplodia</span>
+            </h1>
+            <p className="text-xl text-gray-300">
+              Belajar UTBK lebih seru, kolaboratif, dan termotivasi. Gratis di awal, premium super terjangkau.
+            </p>
+
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.2 }}
+                className="flex items-start space-x-3"
+              >
+                <div className="p-2 bg-indigo-700 rounded-lg">
+                  <feature.Icon className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">{feature.title}</h3>
+                  <p className="text-sm text-gray-300">{feature.description}</p>
+                </div>
+              </motion.div>
+            ))}
+
+            <div className="space-y-4">
+              <motion.a
+                href="https://example.com/download"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                Download Sekarang
+              </motion.a>
+
+              <div className="flex items-center space-x-4 mt-6">
+                <a
+                  href="https://apps.apple.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 px-4 py-2 border border-gray-400 rounded-lg hover:bg-indigo-700 transition-colors duration-300"
+                >
+                  <FaApple className="w-6 h-6" />
+                  <span>App Store</span>
+                </a>
+                <a
+                  href="https://play.google.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 px-4 py-2 border border-gray-400 rounded-lg hover:bg-indigo-700 transition-colors duration-300"
+                >
+                  <FaGooglePlay className="w-6 h-6" />
+                  <span>Play Store</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Right */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="relative"
+          >
+            <div className="relative w-full h-[600px] rounded-2xl overflow-hidden shadow-2xl">
+              <img
+                src="/images/xplodia-mockup.jpg"
+                alt="Xplodia Mobile"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/50 to-transparent" />
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
